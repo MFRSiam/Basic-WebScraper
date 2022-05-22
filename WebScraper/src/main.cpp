@@ -5,7 +5,8 @@
 
 
 
-size_t gotData(char *buffer,size_t itemSize,size_t numberOfItems,void *ignorThis = nullptr) {
+size_t gotData(char *buffer,size_t itemSize,size_t numberOfItems,void *ignorThis = nullptr) {\
+	fmt::print(fmt::fg(fmt::color::blue), "\nChunk Starting\n");
 	size_t bytes = itemSize * numberOfItems;
 	fmt::print("New Chunk Size {}\n", bytes);
 	int lineNumber = 1;;
@@ -17,7 +18,7 @@ size_t gotData(char *buffer,size_t itemSize,size_t numberOfItems,void *ignorThis
 			fmt::print("{}\t", lineNumber);
 		}
 	}
-	fmt::print(fmt::fg(fmt::color::red), "NEW CHUNK STARTING");
+	fmt::print(fmt::fg(fmt::color::red), "Chunk Ending\n");
 	return bytes;
 }
 
