@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+/WebScraper/x64/Debug
+/WebScraper/vcpkg_installed/x64-windows
+/Dependencies/Tidy
+/x64/Debug
+/.vs/WebScraper/v17
+*.filters
