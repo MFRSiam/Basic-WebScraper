@@ -2,6 +2,9 @@
 #include <fmt/color.h>
 #include <curl/curl.h>
 #include <tidy.h>
+#include <tidybuffio.h>
+#include <vector>
+
 
 
 
@@ -19,13 +22,14 @@ size_t gotData(char *buffer,size_t itemSize,size_t numberOfItems,void *ignorThis
 		}
 	}
 	fmt::print(fmt::fg(fmt::color::red), "Chunk Ending\n");
+	std::string data(buffer);
 	return bytes;
 }
 
 
 int main() {
-	fmt::print("Hello world\n");
 	fmt::print("{}\n",curl_version());
+	std::vector<std::string> DataSet;
 
 	CURL* curl = curl_easy_init();
 	if (!curl) {
@@ -37,7 +41,7 @@ int main() {
 	CURLcode res;
 	curl_easy_setopt(curl, CURLOPT_URL, "https://www.4chan.org/");
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, gotData);
-
+	
 
 	res = curl_easy_perform(curl);
 	
