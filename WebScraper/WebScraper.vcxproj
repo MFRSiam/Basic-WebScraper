@@ -140,6 +140,9 @@
     <None Include="..\README.md" />
     <None Include="vcpkg.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\RafData.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
