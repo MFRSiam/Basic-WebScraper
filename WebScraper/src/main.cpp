@@ -22,6 +22,8 @@ SiteData getHtmlData(std::string link) {
 }
 
 
+
+
 int main() {
 
     SiteData data = getHtmlData("https://en.wikipedia.org/wiki/Baka");
