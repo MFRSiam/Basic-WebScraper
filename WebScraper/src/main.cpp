@@ -6,18 +6,34 @@
 #include <vector>
 #include <fstream>
 
+struct SiteData {
+    std::string content_type;
+    std::string html;
+    SiteData(std::string content, std::string html):content_type(content),html(html) {
+
+    }
+};
+
+SiteData getHtmlData(std::string link) {
+    cpr::Response data = cpr::Get(cpr::Url{ link });
+    if (data.status_code == 200) {
+        return {data.header["content-type"],data.text};
+    }
+}
+
 
 int main() {
 
-    cpr::Response r = cpr::Get(cpr::Url{ "https://testsheepnz.github.io/BasicCalculator.html" });
-    r.status_code;                  // 200
-    r.header["content-type"];       // application/json; charset=utf-8
-    //fmt::print("{}",r.text);                         // JSON text string
+    SiteData data = getHtmlData("https://en.wikipedia.org/wiki/Baka");
     CDocument page;
-    page.parse(r.text.c_str());
-    fmt::print("{} \n", r.text);
-    /*CSelection selector = page.find("body");
-    fmt::print("{}", selector.nodeAt(0).text());*/
+    page.parse(data.html.c_str());
+    //fmt::print("{} \n", r.text);
+    CSelection selector = page.find("a");
+    size_t z = selector.nodeNum();
+    for (int i = 0; i < z; i++) {
+        fmt::print(fmt::fg(fmt::color::red), "New Loop Chunk\n");
+        fmt::print("{}\n", selector.nodeAt(i).attribute("href"));
+    }
 
 	return EXIT_SUCCESS;
 }

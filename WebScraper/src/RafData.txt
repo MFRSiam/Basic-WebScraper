@@ -60,3 +60,33 @@ int main() {
 	curl_global_cleanup();
 	return EXIT_SUCCESS;
 }
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////// Try 2
+
+
+
+    cpr::Response r = cpr::Get(cpr::Url{ "https://en.wikipedia.org/wiki/Baka" });
+    r.status_code;                  // 200
+    r.header["content-type"];       // application/json; charset=utf-8
+    //fmt::print("{}",r.text);                         // JSON text string
+    CDocument page;
+    page.parse(r.text.c_str());
+    //fmt::print("{} \n", r.text);
+    CSelection selector = page.find("a");
+    size_t z = selector.nodeNum();
+    for (int i = 0; i < z; i++) {
+        fmt::print(fmt::fg(fmt::color::red), "New Loop Chunk\n");
+        fmt::print("{}\n", selector.nodeAt(i).attribute("href"));
+    }
+
+	return EXIT_SUCCESS;
