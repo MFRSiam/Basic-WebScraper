@@ -1,60 +1,23 @@
+#include <cpr/cpr.h>
 #include <fmt/core.h>
 #include <fmt/color.h>
-#include <curl/curl.h>
-#include <tidy.h>
-#include <tidybuffio.h>
+#include <Document.h>
+#include <Node.h>
 #include <vector>
-
-
-struct MemoryStruct {
-	char* memory;
-	size_t size;
-};
-
-size_t gotData(char *buffer,size_t itemSize,size_t numberOfItems, void* userp=nullptr) {\
-	fmt::print(fmt::fg(fmt::color::blue), "\nChunk Starting\n");
-	size_t bytes = itemSize * numberOfItems;
-	fmt::print("New Chunk Size {}\n", bytes);
-	int lineNumber = 1;;
-	fmt::print("{}\t",lineNumber);
-	for (int i = 0; i < bytes; i++) {
-		fmt::print("{}", buffer[i]);
-		if (buffer[i] == '\n') {
-			lineNumber++;
-			fmt::print("{}\t", lineNumber);
-		}
-	}
-
-	fmt::print(fmt::fg(fmt::color::red), "Chunk Ending\n");
-	std::string data(buffer);
-	return bytes;
-}
+#include <fstream>
 
 
 int main() {
-	fmt::print("{}\n",curl_version());
-	std::vector<std::string> DataSet;
 
-	CURL* curl = curl_easy_init();
-	if (!curl) {
-		fmt::print("Error Occured");
-		return EXIT_FAILURE;
-	}
-	struct MemoryStruct chunk;
+    cpr::Response r = cpr::Get(cpr::Url{ "https://testsheepnz.github.io/BasicCalculator.html" });
+    r.status_code;                  // 200
+    r.header["content-type"];       // application/json; charset=utf-8
+    //fmt::print("{}",r.text);                         // JSON text string
+    CDocument page;
+    page.parse(r.text.c_str());
+    fmt::print("{} \n", r.text);
+    /*CSelection selector = page.find("body");
+    fmt::print("{}", selector.nodeAt(0).text());*/
 
-	//Set Actions 
-	CURLcode res;
-	curl_easy_setopt(curl, CURLOPT_URL, "https://www.4chan.org/");
-	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, gotData);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void*)&chunk);
-
-	res = curl_easy_perform(curl);
-	fmt::print("{} bytes retrieved\n", (unsigned long)chunk.size);
-
-	std::string data(chunk.memory);
-	
-
-	curl_easy_cleanup(curl);
-	curl_global_cleanup();
 	return EXIT_SUCCESS;
 }
