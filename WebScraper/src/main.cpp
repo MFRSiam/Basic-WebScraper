@@ -21,12 +21,17 @@ SiteData getHtmlData(std::string link) {
     }
 }
 
-
+void downloadData(std::string link) {
+    std::ofstream file("01.jpg", std::ios::binary);
+    cpr::Response r = cpr::Download(file, cpr::Url(link));
+    fmt::print(fmt::fg(fmt::color::blue), "Status Code {}\n", r.status_code);
+}
 
 
 int main() {
 
     SiteData data = getHtmlData("https://en.wikipedia.org/wiki/Baka");
+    downloadData("https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.jpg");
     CDocument page;
     page.parse(data.html.c_str());
     //fmt::print("{} \n", r.text);
