@@ -6,6 +6,7 @@
 #include <vector>
 #include <fstream>
 
+
 struct SiteData {
     std::string content_type;
     std::string html;
@@ -19,10 +20,11 @@ SiteData getHtmlData(std::string link) {
     if (data.status_code == 200) {
         return {data.header["content-type"],data.text};
     }
+    
 }
 
 void downloadData(std::string link) {
-    std::ofstream file("01.jpg", std::ios::binary);
+    std::ofstream file("01.webm", std::ios::binary);
     cpr::Response r = cpr::Download(file, cpr::Url(link));
     fmt::print(fmt::fg(fmt::color::blue), "Status Code {}\n", r.status_code);
 }
@@ -31,7 +33,7 @@ void downloadData(std::string link) {
 int main() {
 
     SiteData data = getHtmlData("https://en.wikipedia.org/wiki/Baka");
-    downloadData("https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.jpg");
+    downloadData("https://i.4cdn.org/gif/1654157956526.webm");
     CDocument page;
     page.parse(data.html.c_str());
     //fmt::print("{} \n", r.text);
