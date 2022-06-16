@@ -4,6 +4,8 @@
 #include <Document.h>
 #include <Node.h>
 #include <vector>
+#include <fmt/core.h>
+#include <fmt/color.h>
 
 
 class Scrapper
@@ -15,12 +17,14 @@ private:
     bool urlStatus;
     int responseStatus;
     std::vector<std::string> downloadTypes;
-
+    cpr::Response data;
     // Private Functions
 
 public:
     Scrapper();
     Scrapper(std::string url);
+    ~Scrapper();
+
 
     std::vector<std::string> getAncorTags();
     void insertTypeToLookFor(std::string type);
