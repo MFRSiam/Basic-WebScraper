@@ -3,6 +3,7 @@
 Scrapper::Scrapper()
 {
     this->urlStatus = false;
+    this->responseStatus = 0;
 }
 
 Scrapper::Scrapper(std::string url) : urlStatus(true),url(url)
@@ -14,6 +15,12 @@ Scrapper::Scrapper(std::string url) : urlStatus(true),url(url)
     else {
         fmt::print(fmt::fg(fmt::color::red), "Error Has Occured Response From The Given Url {}", data.status_code);
     }
+    PageParsedData.parse(data.text.c_str());
+    CSelection Selector = PageParsedData.find("a");
+    ancorTags = Selector.nodeNum();
+    for (size_t i = 0; i < ancorTags; i++) {
+        embededUrl.push_back(Selector.nodeAt(i).attribute("href"));
+    }
 }
 
 Scrapper::~Scrapper()
@@ -22,7 +29,8 @@ Scrapper::~Scrapper()
 
 std::vector<std::string> Scrapper::getAncorTags()
 {
-    return std::vector<std::string>();
+    
+    return embededUrl;
 }
 
 void Scrapper::insertTypeToLookFor(std::string type)

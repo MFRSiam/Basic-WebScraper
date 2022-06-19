@@ -6,6 +6,7 @@
 #include <vector>
 #include <fmt/core.h>
 #include <fmt/color.h>
+#include <fstream>
 
 
 class Scrapper
@@ -18,6 +19,10 @@ private:
     int responseStatus;
     std::vector<std::string> downloadTypes;
     cpr::Response data;
+    
+    //Data Formatting Variables
+    CDocument PageParsedData;
+    size_t ancorTags;
     // Private Functions
 
 public:
